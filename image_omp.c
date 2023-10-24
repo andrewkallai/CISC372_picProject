@@ -3,6 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include "image.h"
+#include <omp.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -59,6 +60,9 @@ uint8_t getPixelValue(Image* srcImage,int x,int y,int bit,Matrix algorithm){
 void convolute(Image* srcImage,Image* destImage,Matrix algorithm){
     int row,pix,bit,span;
     span=srcImage->bpp*srcImage->bpp;
+    double t1, t2;
+    t1 = omp_get_wtime();
+    #pragma omp parallel for private(row, pix, bit) num_threads(4)
     for (row=0;row<srcImage->height;row++){
         for (pix=0;pix<srcImage->width;pix++){
             for (bit=0;bit<srcImage->bpp;bit++){
@@ -66,6 +70,8 @@ void convolute(Image* srcImage,Image* destImage,Matrix algorithm){
             }
         }
     }
+    t2 = omp_get_wtime();
+    printf("Convolution time: %d\n", t2-t1);
 }
 
 //Usage: Prints usage information for the program
