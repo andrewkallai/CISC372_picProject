@@ -78,11 +78,10 @@ void convolute(Image* srcImage,Image* destImage,Matrix algorithm){
     }
 }
 
-void *test(void *args){
+void *threaded_conv(void *args){
   int row,pix,bit,span;
   
   argst* input = (argst*)args;
-  printf("%d\n",input->rank);
 
   int local_height = input->srcImage->height / NUM_THREADS;
   int remainder = input->srcImage->height % NUM_THREADS;
@@ -146,7 +145,6 @@ int main(int argc,char** argv){
     destImage.width=srcImage.width;
     destImage.data=malloc(sizeof(uint8_t)*destImage.width*destImage.bpp*destImage.height);
 
-    //convolute(&srcImage,&destImage,algorithms[type]);
     pthread_t* thread_handles = (pthread_t*) malloc(NUM_THREADS * sizeof(pthread_t));
     for(thread = 0; thread < NUM_THREADS; thread++){
       argst *parameters = (argst*)malloc(sizeof(argst));
@@ -154,7 +152,7 @@ int main(int argc,char** argv){
       parameters->destImage = &destImage;
       parameters->type = type;
       parameters->rank = thread;
-      pthread_create(&thread_handles[thread], NULL, &test, (void*)parameters);
+      pthread_create(&thread_handles[thread], NULL, &threaded_conv, (void*)parameters);
     }
     for (thread = 0; thread < NUM_THREADS; thread++){
     	pthread_join(thread_handles[thread], NULL);
