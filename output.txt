@@ -1,0 +1,14 @@
+Script started on Mon Oct 30 17:17:48 2023
+]0;andrewka@r1n00.darwin:~/CISC372_picProject[?1034h[0;42m[andrewka@r1n00 CISC372_picProject]$ [0mmake pthread
+gcc -g -lpthread image_pthread.c -o image -lm
+]0;andrewka@r1n00.darwin:~/CISC372_picProject[0;42m[andrewka@r1n00 CISC372_picProject]$ [0m[Ksrun ./image pic1.jpg edge
+Took 7 seconds
+]0;andrewka@r1n00.darwin:~/CISC372_picProject[0;42m[andrewka@r1n00 CISC372_picProject]$ [0m[Kmake omp
+gcc -g -fopenmp image_omp.c -o image -lm
+]0;andrewka@r1n00.darwin:~/CISC372_picProject[0;42m[andrewka@r1n00 CISC372_picProject]$ [0mmake ompsrun ./image pic1.jpg edge
+Convolution time: 237361040
+Took 7 seconds
+]0;andrewka@r1n00.darwin:~/CISC372_picProject[0;42m[andrewka@r1n00 CISC372_picProject]$ [0m[Kexit
+exit
+
+Script done on Mon Oct 30 17:18:44 2023
